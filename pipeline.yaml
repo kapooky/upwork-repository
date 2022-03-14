@@ -90,7 +90,7 @@ Resources:
                      "ImageTag" : { "Fn::GetParam" : ["DEV-Artifacts", "build.hash.json", "CommitHash"]},
                      "ImageRepositoryName": "dev-ecr",
                      "Enviroment":"dev",
-                     "EFSpath":"/storage"
+                     "EFSpath":"/mnt/storage"
                   }
                 Capabilities: CAPABILITY_IAM,CAPABILITY_AUTO_EXPAND
                 RoleArn: !GetAtt 'CloudformationRole.Arn'

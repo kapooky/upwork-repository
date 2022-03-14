@@ -2,7 +2,7 @@ AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: An AWS Serverless Application that uses the ASP.NET Core framework running in Amazon Lambda.
 Parameters:
-
+  #DbUsername self explanatory.
   DBUsername:
     NoEcho: 'true'
     Description: Username for MySQL database access
@@ -12,6 +12,7 @@ Parameters:
     MaxLength: '16'
     AllowedPattern: '[a-zA-Z][a-zA-Z0-9]*'
     ConstraintDescription: must begin with a letter and contain only alphanumeric characters.
+  #DbPassword self explanatory.
   DBPassword:
     NoEcho: 'true'
     Description: Password MySQL database access
@@ -22,39 +23,28 @@ Parameters:
     AllowedPattern: '[a-zA-Z0-9]*'
     ConstraintDescription: must contain only alphanumeric characters.
 
-  BucketName:
-    Type: String
-    Default: upworktestbucket4201112
-
+  #This is the default url of the ECR repository. Please ignore the Default Value. CodeBuild phase will override this parameter.
   ImageURI:
     Type: String
     Default: 209582769394.dkr.ecr.us-east-1.amazonaws.com/dev-ecr:latest
 
+  #ECR tag for the image.
   ImageTag:
     Description: The tag of the container image
     Type: String
 
+  #Image repository name
   ImageRepositoryName:
     Type: String
-    Default: dev-ecr
 
+  #Environment parameter. This is what determines the environment.
   Enviroment:
     Type: String
-    Default: testing
 
-  dbUserName:
-    Type: String
-    NoEcho: true
-    Default: upwork
-
-  DbSize:
-    Type: String
-    Default: db.t2.small
-
+  #Do not change this, EFS will break.
   EFSpath:
     Type: String
     Default: /mnt/testing
-
 
 Resources:
   ApplicationBucket:

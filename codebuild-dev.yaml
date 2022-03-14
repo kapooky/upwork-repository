@@ -16,6 +16,7 @@ phases:
 
   pre_build:
     commands:
+      # We login into ECR
       - echo Logging in to Amazon ECR...
       - aws --version
       - printenv
@@ -30,12 +31,14 @@ phases:
       - echo Build started on `date`
       - echo Building Docker Image
       - cd lambda/src/lambda
+      # We build the docker image here and tag it
       - docker build -t $IMAGE_REPO_NAME:$TAG .
       - echo Build completed on `date`
       - docker tag $IMAGE_REPO_NAME:$TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$TAG
 
   post_build:
     commands:
+      # We then push out that container image out to ECR repository.
       - echo Pushing the Docker image...
       - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$TAG
       - echo "{\"CommitHash\":\"$TAG\"}" >  $CODEBUILD_SRC_DIR/build.hash.json
